@@ -4,12 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.devpk.foodorder.Common;
 import com.devpk.foodorder.Contants;
+import com.devpk.foodorder.Home;
 import com.devpk.foodorder.R;
 import com.devpk.foodorder.model.User;
 import com.google.firebase.database.DataSnapshot;
@@ -51,8 +54,12 @@ public class SignIn extends AppCompatActivity {
                             User user = snapshot.child(editPhoneNumber.getText().toString()).getValue(User.class);
                             if (user.getPassword().equals(editPassword.getText().toString())) {
                                 progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "Sign In Successfully", Toast.LENGTH_LONG).show();
+                                Intent home = new Intent(SignIn.this, Home.class);
+                                Common.currentUser = user;
+                                startActivity(home);
+                                finish();
                             } else {
+                                progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Sign In fail", Toast.LENGTH_LONG).show();
                             }
                         } else {
